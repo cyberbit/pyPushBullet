@@ -21,8 +21,9 @@ HOST = "https://api.pushbullet.com/v2"
 
 
 class PushBullet():
-    def __init__(self, apiKey):
+    def __init__(self, apiKey, proxies=None):
         self.apiKey = apiKey
+        self.proxies = proxies
 
     def _request(self, method, url, postdata=None, params=None, files=None):
         headers = {"Accept": "application/json",
@@ -38,7 +39,8 @@ class PushBullet():
                              params=params,
                              headers=headers,
                              files=files,
-                             auth=HTTPBasicAuth(self.apiKey, ""))
+                             auth=HTTPBasicAuth(self.apiKey, ""),
+                             proxies=self.proxies)
 
         r.raise_for_status()
         return r.json()
